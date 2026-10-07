@@ -17,7 +17,9 @@ RUN apk update && apk add \
 RUN apk add --update nodejs yarn
 
 RUN pip install --upgrade pip
-RUN pip install poetry
+RUN python -m venv /opt/poetry \
+    && /opt/poetry/bin/pip install poetry \
+    && ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 RUN poetry config virtualenvs.create false
 COPY pyproject.toml poetry.lock ./
 RUN poetry install
